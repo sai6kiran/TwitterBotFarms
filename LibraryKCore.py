@@ -266,9 +266,120 @@ http://doi.org/10.1038/srep31708
 #import networkx as nx
 from networkx.exception import NetworkXError
 from networkx.utils import not_implemented_for
+from networkx.algorithms.shortest_paths \
+    import single_source_shortest_path_length as sp_length
 
 __all__ = ['core_number', 'find_cores', 'k_core', 'k_shell',
            'k_crust', 'k_corona', 'k_truss', 'onion_layers']
+
+def scc_connected_components(G):
+	preorder={}
+	isconnected = False
+	i=0     # Preorder counter
+	for source in G:
+		if source not in preorder:
+			i=i+1
+			preorder[source]=i
+			source_nbrs=G[source]
+			isconnected = False
+		else:
+			source_nbrs=G[source]
+			isconnected = True
+		for w in source_nbrs:
+			if w not in preorder:
+				preorder[w]=i
+    
+	return i
+
+def strongly_connected_components(G):
+    preorder={}
+    lowlink={}
+    scc_found={}
+    scc_queue = []
+    i=0     # Preorder counter
+    for source in G:
+        if source not in scc_found:
+            queue=[source]
+            while queue:
+                v=queue[-1]
+                if v not in preorder:
+                    i=i+1
+                    preorder[v]=i
+                done=1
+                v_nbrs=G[v]
+                for w in v_nbrs:
+                    if w not in preorder:
+                        queue.append(w)
+                        done=0
+                        break
+                if done==1:
+                    lowlink[v]=preorder[v]
+                    for w in v_nbrs:
+                        if w not in scc_found:
+                            if preorder[w]>preorder[v]:
+                                lowlink[v]=min([lowlink[v],lowlink[w]])
+                            else:
+                                lowlink[v]=min([lowlink[v],preorder[w]])
+                    queue.pop()
+                    if lowlink[v]==preorder[v]:
+                        scc_found[v]=True
+                        scc=[v]
+                        while scc_queue and preorder[scc_queue[-1]]>preorder[v]:
+                            k=scc_queue.pop()
+                            scc_found[k]=True
+                            scc.append(k)
+                        yield scc
+                    else:
+                        scc_queue.append(v)
+
+def strongly_connected_components_recursive(G):
+    def visit(v,cnt):
+        root[v]=cnt
+        visited[v]=cnt
+        cnt+=1
+        stack.append(v)
+        for w in G[v]:
+            if w not in visited:
+                for c in visit(w,cnt):
+                    yield c
+            if w not in component:
+                root[v]=min(root[v],root[w])
+        if root[v]==visited[v]:
+            component[v]=root[v]
+            tmpc=[v] # hold nodes in this component
+            while stack[-1]!=v:
+                w=stack.pop()
+                component[w]=root[v]
+                tmpc.append(w)
+            stack.remove(v)
+            yield tmpc
+
+    visited={}
+    component={}
+    root={}
+    cnt=0
+    stack=[]
+    for source in G:
+        if source not in visited:
+            for c in visit(source,cnt):
+                yield c
+                
+def strongly_connected_component_subgraphs(G, copy=True):
+    for comp in strongly_connected_components(G):
+        if copy:
+            yield G.subgraph(comp).copy()
+        else:
+            yield G.subgraph(comp)
+            
+def number_strongly_connected_components(G): 
+    return scc_connected_components(G)
+
+def is_strongly_connected(G):
+    if len(G)==0:
+        raise nx.NetworkXPointlessConcept(
+            """Connectivity is undefined for the null graph.""")
+
+    return len(list(strongly_connected_components(G))[0])==len(G)
 
 def core_number(G):
     """Returns the core number for each vertex.
@@ -465,6 +576,32 @@ def connected_component_subgraphs(G, copy=True):
         else:
             yield G.subgraph(c)
 
+
+def no_connected_components(G):
+    """Returns the number of connected components.
+
+    Parameters
+    ----------
+    G : NetworkX graph
+       An undirected graph.
+
+    Returns
+    -------
+    n : integer
+       Number of connected components
+
+    See Also
+    --------
+    connected_components
+    number_weakly_connected_components
+    number_strongly_connected_components
+
+    Notes
+    -----
+    For undirected graphs only.
+
+    """
+    return sum(1 for cc in scc(G))
 
 # In[16]:
 
@@ -709,7 +846,7 @@ for row in getdata("/root/.encrypted/.pythonSai/ira_tweets_csv_hashed.csv", "TRU
 	#print()
 print(count) 
 '''
-'''
+
 def kcoreDirectedGraph(G, k):
     rrf = False
     U = G.copy()
@@ -738,18 +875,19 @@ def connected_component_subgraphs(G, copy=True):
             yield G.subgraph(c).copy()
         else:
             yield G.subgraph(c)
-
+'''
 import pdb
 #pdb.set_trace()
 '''
 import time
 import pdb
-oba = []
+#oba = []
 rba = []
-df = pd.read_csv("/root/.encrypted/.pythonSai/ira_tweets_csv_hashed.csv", sep=",", header=None, usecols=[0,1,18,19,20], chunksize=2000, skiprows=1, names=["tweetid","userid","is_retweet","retweet_userid","retweet_tweetid"])
+aih = False
+df = pd.read_csv("/root/.encrypted/.pythonSai/ira_tweets_csv_hashed.csv", sep=",", header=None, usecols=[1,18,19], chunksize=2000, skiprows=1, names=["userid","is_retweet","retweet_userid"])
 #df.to_csv('my_parsed.csv', mode='a', header=False)
-df_lst = pd.DataFrame(columns=["tweetid","userid","is_retweet","retweet_userid","retweet_tweetid"])
-dfo = pd.DataFrame(columns=["tweetid","userid","is_retweet","retweet_userid","retweet_tweetid"])
+df_lst = pd.DataFrame(columns=["tweetid","is_retweet", "retweet_userid"])
+
 pd.set_option('display.max_columns', 100)
 
 '''
@@ -769,29 +907,34 @@ for df_ in df:
 #df_lst = df_lst.append(row, ignore_index=True)
 			#print(df_lst)
 #print(df_lst)
-	df_lst = df_.loc[df_["is_retweet"].map(lambda x: x==True)]["retweet_userid"].map(lambda x: oba.append(x))
+	df_lst = df_.loc[df_["is_retweet"].map(lambda x: x==True)]
 	
 	#for index, row in df_lst.iterrows():
 	#	if(row["retweet_userid"] not in rba):
 	#		rba.append(row["retweet_userid"])
 	#		oba.append(row["retweet_userid"])
 
-	for bui in oba:
+	#for bui in oba:
 		#print(type(bui))
-		for row in df_.itertuples():
-			if(row.userid==bui and bui in oba):
-				oba.remove(bui)
+	#	for row in df_.itertuples():
+	#		if(row.userid==bui and bui in oba):
+	#			oba.remove(bui)
 				#df_lst.append(row)
 	
 
 #df_lst = df[df.columns[df["is_retweet"].isin([True])]]
 #print(df_lst.loc[df_lst["is_retweet"].isin([True])])
-	df_lst.to_csv('my_parsed2.csv', mode='a', header=False)
+	#df_lst.drop(df_lst.columns[[0, 2]], axis=1)
+	#if(aih is False):
+		#df_lst.to_csv('my_parsed3.csv', mode='a', columns=["tweetid","retweet_userid"], header=True)
+		#aih = True
+	#else:
+	df_lst[["userid","retweet_userid"]].to_csv('my_parsed3.csv', mode='a', header=False, index=False)
 	t1 = time.time()
-	print(t1-t0)
+	#print(t1-t0)
 
-
-
+'''
+'''
 def converter(x):
     if isinstance(x, pd.Series):
         return str(x.values)
@@ -828,31 +971,44 @@ for dfn in dfa:
 	for df_ in df:
 		dfo = dfn.loc[dfn["retweet_userid"].map(lambda x: )]
 dfo.to_csv('my_parsed.csv', mode='a', header=False)
+
 '''
 
+
 #Constructing the graph:
-dfn = pd.read_csv("/root/.encrypted/.pythonSai/my_parsed.csv", sep=",", header=None, chunksize=2000, names=["tweetid","userid","is_retweet","retweet_userid","retweet_tweetid"])
+dfn = pd.read_csv("/root/.encrypted/.pythonSai/my_parsed3.csv", sep=",", header=None, chunksize=2000, names=["userid","retweet_userid"])
 
 G=nx.DiGraph()
 tmp = 0
 cnt = 0
+
+#def addGraph(x):
+	#G.add_node(x)
+
 for df_ in dfn:
 	#t0 = time.time()
-	tmp +=1
-	print(len(df_))
+	#tmp +=1
+	#print(len(df_))
 	#for index, row in df_.iterrows():
 		#cnt+=1
 		#if(row["retweet_userid"] == ''):
 			#print(row, tmp, cnt)
 			#break
-	df_lst = df_.loc[df_["retweet_userid"].map(lambda x: print(x, tmp) if x!='' else "false")]
+	#df_lst = df_.loc[df_["retweet_userid"].map(lambda x: print(x, tmp) if x!='' else "false")]
+	G.add_edges_from(df_.values)
+	#df_lst = df_.loc[df_["userid"].map(lambda x: G.add_node(x))]
 	#t1 = time.time()
-	print("************************************************************")
+	#print("************************************************************")
 	#print(t1-t0)
 	#if(row['retweet_userid'] not in uid and row['retweet_userid'] is not None):
 		#G.add_node(row['retweet_userid'])
 	#if(row['userid'] not in uid):
 		#G.add_node(row['userid'])
+
+
+
+'''
+'''
 '''
 for index, row in df_lst.iterrows():
 	G.add_edges_from([(row['userid'],row['retweet_userid'])])
@@ -871,7 +1027,45 @@ plt.show()
 kvl = 0
 for i in range(0, len(G)):
 	# pdb.set_trace()
-	kcg = kcoreDirectedGraph(G,k=i)
+'''	
+
+
+
+#print("yo")
+G.remove_edges_from(nx.selfloop_edges(G))
+dkc = []
+
+for i in range(0,120):
+	if(i==0):
+		t0 = time.time()
+		print("hey")
+		t1 = time.time()
+		print(t1-t0)
+		dkc.append((i,len(G.nodes()),number_strongly_connected_components(G)))
+		t2 = time.time()
+		print(t2-t0)
+        
+	else:
+		t0 = time.time()
+		print("hey")
+		kcg = k_core(G,k=i)
+		t1 = time.time()
+		print(t1-t0)
+		dkc.append((i,len(kcg.nodes()),number_strongly_connected_components(kcg)))
+		t2 = time.time()
+		print(t2-t0)
+dfn = pd.DataFrame(dkc, columns=["kVal","NoOfCoreBots","NoOfCoreCC"])
+dfn.to_csv('kCoreStatGraphCC.csv', mode='a', header=True)
+
+
+	#print(t1-t0)
+#print("The total no. of vertices of graph is: " + str(len(G.nodes())) +  " total no. of edges of graph is: " + str(len(G.edges))+ "\nThe total no. of vertices in core graph is: " + str(len(kcg.nodes())) + " total no. of edges of graph is: " + str(len(kcg.edges)))
+#kel = [e for e in kcg.edges]
+#dfn = pd.DataFrame(kel, columns=["userid","retweet_userid"])
+#dfn[["userid","retweet_userid"]].to_csv('kcoreresults.csv', mode='a', header=False, index=False)
+
+#dfn.to_csv('kcoreresults.csv', mode='a', header=False)
+'''	
 	if(not kcg.nodes()):
 		kvl = i-1
 		break
