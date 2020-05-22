@@ -4,3 +4,4 @@ a.csv filter=lfs diff=lfs merge=lfs -text
 ira_users_csv_hashed.csv filter=lfs diff=lfs merge=lfs -text
 tweetRetweetReply.csv filter=lfs diff=lfs merge=lfs -text
 Untitled[[:space:]](1)-checkpoint.ipynb filter=lfs diff=lfs merge=lfs -text
+UserBotsRetweetReply.csv filter=lfs diff=lfs merge=lfs -text
