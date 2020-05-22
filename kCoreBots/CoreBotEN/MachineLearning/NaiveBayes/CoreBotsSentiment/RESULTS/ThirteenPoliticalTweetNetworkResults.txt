@@ -1,0 +1,133 @@
+For Twitter bot: 716640116203192320
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716640116224233472
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716640116228431872
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716640116270362624
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716640116761079808
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716640120015888384
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642138042314754
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642138717609985
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642138721820672
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642138801496064
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642139443224576
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642139816476672
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+For Twitter bot: 716642139816476672
+**********************************
+The average % of similarty of all political twitter networks used by this bot = 0.0%
+#####################################################################
+
+
+
+##########################FINAL STATISTICS OF THE ENTIRE TWITTER SOCIAL BOT NETWORK:###########################################
+The average % of similarty of all politically social troll bot networks used in the 2016 elections = 0.0%
+The no. of most commonly used social troll bots used in the 2016 elections: 14
+The total no. of K Degenerate BOTS that received the political tweets = 1
+The total no. of Political BOTS that sent its political tweets to the K Degenerate BOTS = 13
+The total no. of Other Political Bots that received the political tweets = 2
+The total no. of Political BOTS that sent its political tweets to Other Political Bots = 13
+The total no. of PIVOTAL BOTS that received the political tweets = 15
+The total no. of Political BOTS that sent its political tweets to the PIVOTAL BOTS = 13
+The total no. of Unique Pivotal Bots that received the political tweets = 846
+The total no. of Political BOTS that sent its political tweets to the Unique Pivotal Bots = 13
+The no. of strongly connected components in the union of all Political tweet networks combined = 1
+
+
+
+##########################DEMOGRAPHICS OF THE ENTIRE TWITTER SOCIAL BOT NETWORK:###############################################
+Total no. of bots in the entire twitter network = 205431
+Total no. of political social troll bots in this twitter network = 15
+************************************************
+Total no. of positive social troll bots in the entire twitter network = 15
+% of positive social troll bots in the 2016 political network = 100.0%
+% of positive social troll bots in the entire twitter network = 0.007301721745987704%
+************************************************
+Total no. of negative social troll bots in the entire twitter network = 0
+% of negative social troll bots in the 2016 political network = 0.0%
+% of negative social troll bots in the entire twitter network = 0.0%
+************************************************
+Total no. of neutral social troll bots in the entire twitter network = 0
+% of neutral social troll bots in the 2016 political network = 0.0%
+% of neutral social troll bots in the entire twitter network = 0.0%
+************************************************
+Total no. of DONALD TRUMP social troll bots in the entire twitter network = 15
+% of DONALD TRUMP social troll bots in the 2016 political network = 100.0%
+% of DONALD TRUMP social troll bots in the entire twitter network = 0.007301721745987704%
+************************************************
+Total no. of HILLARY CLINTON social troll bots in the entire twitter network = 0
+% of HILLARY CLINTON social troll bots in the 2016 political network = 0.0%
+% of HILLARY CLINTON social troll bots in the entire twitter network = 0.0%
+************************************************
+Total no. of PRO TRUMP social troll bots in the entire twitter network = 15
+% of PRO TRUMP social troll bots in the 2016 political network = 100.0%
+% of PRO TRUMP social troll bots in the entire twitter network = 0.007301721745987704%
+************************************************
+Total no. of ANTI TRUMP social troll bots in the entire twitter network = 0
+% of ANTI TRUMP social troll bots in the 2016 political network = 0.0%
+% of ANTI TRUMP social troll bots in the entire twitter network = 0.0%
+************************************************
+Total no. of PRO CLINTON social troll bots in the entire twitter network = 0
+% of PRO CLINTON social troll bots in the 2016 political network = 0.0%
+% of PRO CLINTON social troll bots in the entire twitter network = 0.0%
+************************************************
+Total no. of ANTI CLINTON social troll bots in the entire twitter network = 0
+% of ANTI CLINTON social troll bots in the 2016 political network = 0.0%
+% of ANTI CLINTON social troll bots in the entire twitter network = 0.0%
